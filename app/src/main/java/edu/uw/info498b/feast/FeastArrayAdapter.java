@@ -34,13 +34,13 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
         else
             itemView = convertView;
 
-        ImageView icon = (ImageView)itemView.findViewById(R.id.item_icon);
-        TextView firstLine = (TextView)itemView.findViewById(R.id.item_firstLine);
-        TextView secondLine = (TextView)itemView.findViewById(R.id.item_secondLine);
+//        ImageView icon = (ImageView)itemView.findViewById(R.id.item_icon);
+//        TextView firstLine = (TextView)itemView.findViewById(R.id.item_firstLine);
+//        TextView secondLine = (TextView)itemView.findViewById(R.id.item_secondLine);
 
-        firstLine.setText(feasts.get(position).name);
-        secondLine.setText("Position: " + position);
-        icon.setImageResource(R.drawable.salmon);
+//        firstLine.setText(feasts.get(position).name);
+//        secondLine.setText("Position: " + position);
+//        icon.setImageResource(R.drawable.salmon);
 
         return itemView;
     }

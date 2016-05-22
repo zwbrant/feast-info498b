@@ -1,35 +1,91 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="@android:color/holo_red_dark"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="6dip" >
+    android:background="@color/colorWhite"
+    android:layout_marginBottom="15dp"
+    android:padding="10sp" >
 
     <ImageView
         android:id="@+id/item_icon"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_compass" />
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/salmon" />
 
     <TextView
-        android:id="@+id/item_firstLine"
+        android:id="@+id/item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center_vertical"
-        android:text="Example application"
+        android:text="Cole's 20th Birthday Dinner!"
+        android:layout_toRightOf="@id/item_icon"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/item_secondLine"
+        android:id="@+id/item_time"
         android:layout_width="wrap_content"
-        android:layout_height="26dip"
-        android:layout_weight="1"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="Description"
-        android:textSize="12sp" />
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_icon"
+        android:layout_below="@id/item_title"
+        android:text="6:30pm"
+        android:textSize="13sp" />
 
+    <TextView
+        android:id="@+id/item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_icon"
+        android:layout_below="@id/item_time"
+        android:text="May 20, 2016"
+        android:textSize="13sp" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_below="@id/item_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@android:drawable/ic_menu_compass" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@android:drawable/ic_menu_compass" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@android:drawable/ic_menu_compass" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@android:drawable/ic_menu_compass" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@android:drawable/ic_menu_compass" />
+        <TextView
+            android:id="@+id/item_plusPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+
+            android:text="+4"
+            android:textSize="15sp" />
+    </LinearLayout>
+</RelativeLayout>

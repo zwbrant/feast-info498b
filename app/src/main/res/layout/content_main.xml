@@ -4,9 +4,11 @@
     android:id="@+id/listView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_marginTop="100sp"
-    android:paddingLeft="40sp"
-    android:paddingRight="40sp"
+    android:layout_marginTop="70sp"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="13sp"
+    android:paddingLeft="20sp"
+    android:paddingRight="20sp"
     tools:context="edu.uw.info498b.feast.MainActivity"
     tools:showIn="@layout/activity_main">
 

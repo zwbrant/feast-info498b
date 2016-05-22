@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Feast> feasts = new ArrayList<Feast>();
         feasts.add(new Feast("salmon"));
+        feasts.add(new Feast("salmon"));
+        feasts.add(new Feast("salmon"));
+        feasts.add(new Feast("salmon"));
         FeastArrayAdapter adapter = new FeastArrayAdapter(this, feasts);
 
 
