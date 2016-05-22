@@ -1,0 +1,48 @@
+package edu.uw.info498b.feast;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+/**
+ * Created by astro.domine on 5/21/2016.
+ */
+
+public class FeastArrayAdapter extends ArrayAdapter<Feast> {
+    private final Context context;
+    private final ArrayList<Feast> feasts;
+
+    public FeastArrayAdapter(Context context, ArrayList<Feast> feasts) {
+        super(context, -1, feasts);
+        this.context = context;
+        this.feasts = feasts;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View itemView;
+        if (convertView == null)
+             itemView = inflater.inflate(R.layout.feast_list_item, parent, false);
+        else
+            itemView = convertView;
+
+        ImageView icon = (ImageView)itemView.findViewById(R.id.item_icon);
+        TextView firstLine = (TextView)itemView.findViewById(R.id.item_firstLine);
+        TextView secondLine = (TextView)itemView.findViewById(R.id.item_secondLine);
+
+        firstLine.setText(feasts.get(position).name);
+        secondLine.setText("Position: " + position);
+        icon.setImageResource(R.drawable.salmon);
+
+        return itemView;
+    }
+}
+
