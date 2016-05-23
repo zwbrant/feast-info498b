@@ -1,19 +1,23 @@
 package edu.uw.info498b.feast;
 
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +29,21 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.listView);
 
         ArrayList<Feast> feasts = new ArrayList<Feast>();
+        //Example implementation of the ListView, with mock entries
+        //Not sure where the actual Feast data should be stored.
         feasts.add(new Feast("salmon"));
         feasts.add(new Feast("salmon"));
-        feasts.add(new Feast("salmon"));
+        feasts.add(new Feast("salmon")); //Don't ask me why it's salmon
         feasts.add(new Feast("salmon"));
         FeastArrayAdapter adapter = new FeastArrayAdapter(this, feasts);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Feast feast = (Feast) parent.getItemAtPosition(position);
+                Log.v(TAG, "You clicked on: "+ feast);
+            }
+        });
 
         listView.setAdapter(adapter);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

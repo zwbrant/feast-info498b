@@ -12,6 +12,10 @@ import java.util.ArrayList;
 
 /**
  * Created by astro.domine on 5/21/2016.
+ * Adapter needed to use the ListView with Feasts; the standard ArrayAdapters (Simple)
+ * only adapt Strings. They populate one TextView in the given item layout by calling the
+ * array's toString() method. This custom implementation allows us to use all the data
+ * in a Feast to populate the feast_list_item layout (icon, title, etc.).
  */
 
 public class FeastArrayAdapter extends ArrayAdapter<Feast> {
@@ -24,16 +28,18 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
         this.feasts = feasts;
     }
 
+    //Called when the ListView is populating the list from the feasts ArrayList
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView;
-        if (convertView == null)
+        if (convertView == null) //If the adapter isn't populating an existing list item
              itemView = inflater.inflate(R.layout.feast_list_item, parent, false);
         else
             itemView = convertView;
 
+        //Disabled these until the layout is finalized
 //        ImageView icon = (ImageView)itemView.findViewById(R.id.item_icon);
 //        TextView firstLine = (TextView)itemView.findViewById(R.id.item_firstLine);
 //        TextView secondLine = (TextView)itemView.findViewById(R.id.item_secondLine);

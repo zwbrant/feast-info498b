@@ -42,6 +42,7 @@
         android:textSize="13sp" />
 
     <LinearLayout
+        android:id="@+id/item_contactImages"
         android:layout_below="@id/item_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
