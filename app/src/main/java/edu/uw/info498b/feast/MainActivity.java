@@ -41,27 +41,32 @@ public class MainActivity extends AppCompatActivity {
         feasts.add(new Feast("salmon"));
         FeastArrayAdapter adapter = new FeastArrayAdapter(this, feasts);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Feast feast = (Feast) parent.getItemAtPosition(position);
-                Log.v(TAG, "You clicked on: "+ feast);
-                Intent intent = new Intent(MainActivity.this, DetailFeastActivity.class);
+        if(listView != null) {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Feast feast = (Feast) parent.getItemAtPosition(position);
+                    Log.v(TAG, "You clicked on: " + feast);
+                    Intent intent = new Intent(MainActivity.this, DetailFeastActivity.class);
 //                Bundle extra = new Bundle();
 //                extra.putLong("id", id);
-                startActivity(intent);
-            }
-        });
+                    startActivity(intent);
+                }
+            });
 
-        listView.setAdapter(adapter);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NewFeastActivity.class);
-                startActivity(intent);
-            }
-        });
+            listView.setAdapter(adapter);
+
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.v(TAG, "add new stuf3wqejrfnd safkjaf");
+
+                    Intent intent = new Intent(MainActivity.this, NewFeastActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override

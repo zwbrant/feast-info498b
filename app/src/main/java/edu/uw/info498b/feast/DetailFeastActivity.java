@@ -3,6 +3,8 @@ package edu.uw.info498b.feast;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Toast;
 
 /**
  * Created by Nick on 5/23/16.
@@ -13,5 +15,9 @@ public class DetailFeastActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_feast);
+    }
+
+    public void handleClosePoll(View v) {
+        Toast.makeText(this, "Poll closed!", Toast.LENGTH_SHORT).show();
     }
 }
