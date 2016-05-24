@@ -21,6 +21,7 @@
 
         <activity android:name=".NewFeastActivity"/>
         <activity android:name=".SettingsActivity"/>
+        <activity android:name=".DetailFeastActivity"/>
     </application>
 
 </manifest>

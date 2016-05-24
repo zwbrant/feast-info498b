@@ -1,5 +1,6 @@
 package edu.uw.info498b.feast;
 
+import android.animation.FloatEvaluator;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+
+    public static ArrayList<Feast> feasts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Feast feast = (Feast) parent.getItemAtPosition(position);
                 Log.v(TAG, "You clicked on: "+ feast);
+                Intent intent = new Intent(MainActivity.this, DetailFeastActivity.class);
+//                Bundle extra = new Bundle();
+//                extra.putLong("id", id);
+                startActivity(intent);
             }
         });
 
