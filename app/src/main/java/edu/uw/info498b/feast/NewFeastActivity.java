@@ -13,6 +13,6 @@ public class NewFeastActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.activity_new_feast);
-
+        setTitle("New Feast");
     }
 }
