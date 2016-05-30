@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.uw.info498b.feast">
 
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-feature android:name="android.hardware.telephony"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +24,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".NewFeastActivity"/>
+        <activity android:name=".NewFeastActivity">
+             <intent-filter>
+                 <action android:name="edu.uw.mczhou.yama.ACTION_SMS_SENT"/>
+                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingsActivity"/>
         <activity android:name=".DetailFeastActivity"/>
     </application>
