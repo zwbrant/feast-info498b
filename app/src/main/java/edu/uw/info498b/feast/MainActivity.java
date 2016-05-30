@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    public static ArrayList<Feast> feasts;
+    public static FeastArrayAdapter feastsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        initListView();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v(TAG, "add new stuf3wqejrfnd safkjaf");
+
+                Intent intent = new Intent(MainActivity.this, NewFeastActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    void initListView() {
         ListView listView = (ListView)findViewById(R.id.listView);
 
         ArrayList<Feast> feasts = new ArrayList<Feast>();
@@ -39,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         feasts.add(new Feast("salmon"));
         feasts.add(new Feast("salmon")); //Don't ask me why it's salmon
         feasts.add(new Feast("salmon"));
-        FeastArrayAdapter adapter = new FeastArrayAdapter(this, feasts);
+        feastsAdapter = new FeastArrayAdapter(this, feasts);
 
         if(listView != null) {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,18 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            listView.setAdapter(adapter);
-
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.v(TAG, "add new stuf3wqejrfnd safkjaf");
-
-                    Intent intent = new Intent(MainActivity.this, NewFeastActivity.class);
-                    startActivity(intent);
-                }
-            });
+            listView.setAdapter(feastsAdapter);
         }
     }
 
