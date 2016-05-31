@@ -71,7 +71,7 @@ public class NewFeastActivity extends AppCompatActivity {
         title = ((EditText) this.findViewById(R.id.edit_title)).getText().toString();
         String pollString = "Feast Poll (at " + date + " " + time + "): \n " +
                 title + " \n" +
-                "Reply with number to vote: \n" +
+                "Reply with name to vote: \n" +
                 " \n";
 
         for(int i = 0; i < adapter.getCount(); i++) {

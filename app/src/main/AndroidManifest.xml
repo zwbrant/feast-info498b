@@ -33,6 +33,13 @@
         </activity>
         <activity android:name=".SettingsActivity"/>
         <activity android:name=".DetailFeastActivity"/>
+
+        <receiver android:name=".MessageReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="edu.uw.info498b.feast.ACTION_SMS_STATUS" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
