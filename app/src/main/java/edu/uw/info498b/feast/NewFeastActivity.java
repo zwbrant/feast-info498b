@@ -192,9 +192,24 @@ public class NewFeastActivity extends AppCompatActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            time = hourOfDay + ":" + minute;
+//            time = timeFormat(hourOfDay, minute);
             Log.v(TAG, time);
         }
+
+//        private String timeFormat (int hourOfDay, int minute) {
+//            String stamp = "";
+//            String minutes = "" + minute;
+//            hourOfDay++;
+//            if (minute < 10) {
+//                minutes
+//            }
+//            if(hourOfDay <12) {
+//                stamp = "am";
+//
+//            } else {
+//                stamp = "pm";
+//            }
+//        }
     }
 
     public static class DatePickerFragment extends DialogFragment
