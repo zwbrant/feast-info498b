@@ -15,7 +15,10 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Nick on 5/23/16.
@@ -38,22 +41,27 @@ public class DetailFeastActivity extends AppCompatActivity {
             feast = MainActivity.feastsAdapter.getItem(position);
 
             ((TextView)findViewById(R.id.item_title)).setText(feast.name);
+            ((TextView) findViewById(R.id.item_time)).setText(feast.time);
+            ((TextView) findViewById(R.id.item_date)).setText(feast.date);
 
-            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mma");
-            ((TextView) findViewById(R.id.item_time)).setText(timeFormat.format(new Date(feast.time)));
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd, yyyy");
-            ((TextView) findViewById(R.id.item_date)).setText(dateFormat.format(new Date(feast.date)));
-
-            ListView categoryList = (ListView) findViewById(R.id.detail_category_list);
+//            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mma");
+//            ((TextView) findViewById(R.id.item_time)).setText(timeFormat.format(new Date(feast.time)));
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd, yyyy");
+//            ((TextView) findViewById(R.id.item_date)).setText(dateFormat.format(new Date(feast.date)));
 
 
             // people
 
 
-//             food category
-//            ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,
-//                    R.layout.category_list_item, R.id.category_title, feast.categories);
-//            ((ListView)findViewById(R.id.detail_category_list)).setAdapter(categoryAdapter);
+            // food category
+            ArrayList<String> categoryList = new ArrayList<String>();
+            categoryList.addAll(feast.categories.keySet());
+            ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,
+                    R.layout.category_list_item, R.id.category_title, categoryList);
+            ((ListView)findViewById(R.id.detail_category_list)).setAdapter(categoryAdapter);
+
+            // vote status
+            ArrayList<Integer> votes = (ArrayList<Integer>) feast.categories.values();
 
             if (feast.completed) {
                 // result page
@@ -67,7 +75,7 @@ public class DetailFeastActivity extends AppCompatActivity {
 
     public void handleClosePoll(View v) {
         Toast.makeText(this, "Poll closed!", Toast.LENGTH_SHORT).show();
-        feast.completed = true;
+        feast.setCompleted(true);
         ((ImageView) findViewById(R.id.detail_winning_image)).setVisibility(View.VISIBLE);
 //                ((TextView) findViewById(R.id.detail_winning_text)).setText(feast.winning);
         ((TextView) findViewById(R.id.detail_winning_text)).setVisibility(View.VISIBLE);

@@ -19,7 +19,7 @@ public class Feast {
     ArrayList<String> phonenumbers;
 
     public Feast(String name) {
-        new Feast(name, null, null, null);
+        this(name, null, null, null);
     }
 
     public Feast(String name, String date, String time, Date dateCreated) {
@@ -88,7 +88,6 @@ public class Feast {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
-
 
     @Override
     public String toString(){
