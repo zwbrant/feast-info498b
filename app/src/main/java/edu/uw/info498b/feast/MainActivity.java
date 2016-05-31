@@ -19,6 +19,9 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -66,10 +69,12 @@ public class MainActivity extends AppCompatActivity {
             feasts = new ArrayList<Feast>();
             //Example implementation of the ListView, with mock entries
             //Not sure where the actual Feast data should be stored.
+
             feasts.add(new Feast("Salmon celebration", "8:45pm","Apr 30th",new Date()));
             feasts.add(new Feast("Mongoose fest", "8:45pm","Sep 30th",new Date()));
             feasts.add(new Feast("Platypus party", "3:45pm","Oct 30th",new Date()));
             feasts.add(new Feast("Dachshund dance", "5:45pm","May 30th",new Date()));
+
         } else {
             Gson gson = new Gson();
             Log.v(TAG, "***Loading JSON");
