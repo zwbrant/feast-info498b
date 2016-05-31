@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
             feasts = new ArrayList<Feast>();
             //Example implementation of the ListView, with mock entries
             //Not sure where the actual Feast data should be stored.
-            feasts.add(new Feast("salmon"));
-            feasts.add(new Feast("salmon"));
-            feasts.add(new Feast("salmon")); //Don't ask me why it's salmon
-            feasts.add(new Feast("salmon"));
+//            feasts.add(new Feast("salmon"));
+//            feasts.add(new Feast("salmon"));
+//            feasts.add(new Feast("salmon")); //Don't ask me why it's salmon
+//            feasts.add(new Feast("salmon"));
 //        } else {
 //            Gson gson = new Gson();
 //            Log.v(TAG, "***Loading JSON");
