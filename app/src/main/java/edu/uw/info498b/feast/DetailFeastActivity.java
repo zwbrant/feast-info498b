@@ -15,10 +15,12 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Nick on 5/23/16.
  */
+
 public class DetailFeastActivity extends AppCompatActivity {
     private static final String TAG = "DetailFeastActivity";
     private Bundle bundle;
@@ -37,10 +39,10 @@ public class DetailFeastActivity extends AppCompatActivity {
 
             ((TextView)findViewById(R.id.item_title)).setText(feast.name);
 
-//            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mma");
-//            ((TextView) findViewById(R.id.item_time)).setText(timeFormat.format(feast.deadline));
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd, yyyy");
-//            ((TextView) findViewById(R.id.item_date)).setText(dateFormat.format(feast.date));
+            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mma");
+            ((TextView) findViewById(R.id.item_time)).setText(timeFormat.format(new Date(feast.time)));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd, yyyy");
+            ((TextView) findViewById(R.id.item_date)).setText(dateFormat.format(new Date(feast.date)));
 
             ListView categoryList = (ListView) findViewById(R.id.detail_category_list);
 
