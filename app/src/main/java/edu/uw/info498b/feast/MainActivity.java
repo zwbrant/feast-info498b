@@ -19,6 +19,9 @@ import android.widget.TextView;
 //import com.google.gson.Gson;
 //import com.google.gson.reflect.TypeToken;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -58,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
     void initListView() {
         ListView listView = (ListView)findViewById(R.id.listView);
 
-//        String json = tryLoadJson();
-//        if (json == null) {
+        String json = tryLoadJson();
+        if (json == null) {
             Log.v(TAG, "***No JSON found");
 
             feasts = new ArrayList<Feast>();
@@ -69,13 +72,13 @@ public class MainActivity extends AppCompatActivity {
             feasts.add(new Feast("salmon"));
             feasts.add(new Feast("salmon")); //Don't ask me why it's salmon
             feasts.add(new Feast("salmon"));
-//        } else {
-//            Gson gson = new Gson();
-//            Log.v(TAG, "***Loading JSON");
-//
-//            Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
-//            feasts = gson.fromJson(json, collectionType);
-//        }
+        } else {
+            Gson gson = new Gson();
+            Log.v(TAG, "***Loading JSON");
+
+            Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
+            feasts = gson.fromJson(json, collectionType);
+        }
 
         feastsAdapter = new FeastArrayAdapter(this, feasts);
 
@@ -114,22 +117,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(feasts);
-//
-//        try {
-//            FileWriter file = new FileWriter(getFilesDir().getPath() + "/" + jsonFileName);
-//            file.write(json);
-//            file.flush();
-//            file.close();
-//            Log.v(TAG, "***Saved JSON");
-//        } catch (IOException e) {
-//            Log.e("TAG", "Error in Writing: " + e.getLocalizedMessage());
-//        }
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Gson gson = new Gson();
+        String json = gson.toJson(feasts);
+
+        try {
+            FileWriter file = new FileWriter(getFilesDir().getPath() + "/" + jsonFileName);
+            file.write(json);
+            file.flush();
+            file.close();
+            Log.v(TAG, "***Saved JSON");
+        } catch (IOException e) {
+            Log.e("TAG", "Error in Writing: " + e.getLocalizedMessage());
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
