@@ -1,14 +1,19 @@
 package edu.uw.info498b.feast;
 
 import android.content.Context;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by astro.domine on 5/21/2016.
@@ -19,6 +24,7 @@ import java.util.ArrayList;
  */
 
 public class FeastArrayAdapter extends ArrayAdapter<Feast> {
+    private static final String TAG = "FeastAdapater";
     private final Context context;
     private final ArrayList<Feast> feasts;
 
@@ -44,12 +50,53 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
         TextView title = (TextView)itemView.findViewById(R.id.item_title);
         TextView time = (TextView)itemView.findViewById(R.id.item_time);
         TextView date = (TextView)itemView.findViewById(R.id.item_date);
+        LinearLayout contactContainer = (LinearLayout)itemView.findViewById(R.id.item_contactContainer);
+        if(((LinearLayout) contactContainer).getChildCount() > 0)
+            ((LinearLayout) contactContainer).removeAllViews();
 
         title.setText(feasts.get(position).getName());
         time.setText(feasts.get(position).getTime());
         date.setText(feasts.get(position).getDate());
 
+        if (feasts.get(position).getPhonenumbers() != null) {
+
+            Set<String> numbers = (Set<String>) feasts.get(position).getPhonenumbers().keySet();
+
+            Log.v(TAG, "****" + title.getText() + " Numbers detected " + numbers.size());
+
+            for (String key :numbers) {
+                String name = feasts.get(position).getPhonenumbers().get(key);
+                Log.v(TAG, "****Adding " + name);
+                String[] subNames = name.split(" ");
+                String initial = "";
+
+                initial += Character.toUpperCase(subNames[0].charAt(0));
+                if (subNames.length > 1)
+                    initial += Character.toUpperCase(subNames[subNames.length - 1].charAt(0));
+
+                TextView textView = new TextView(getContext());
+                textView.setText(initial);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
+
+                LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                textView.setLayoutParams(lps);
+                lps.setMargins(0,0, 10,0);
+//                textView.setId(i);
+
+
+                contactContainer.addView(textView);
+
+
+            }
+        } else {
+            Log.v(TAG, "****No Numbers detected ");
+
+        }
+
+
         return itemView;
     }
+
+
 }
 

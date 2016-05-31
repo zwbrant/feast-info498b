@@ -1,5 +1,7 @@
 package edu.uw.info498b.feast;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +18,7 @@ public class Feast {
 
     boolean completed;
     HashMap<String, Integer> categories;
-    ArrayList<String> phonenumbers;
+    public HashMap<String, String> phonenumbers;
 
     public Feast(String name) {
         this(name, null, null, null);
@@ -29,11 +31,11 @@ public class Feast {
         completed = false;
         this.dateCreated = dateCreated;
         categories = new HashMap<String, Integer>();
-        phonenumbers = new ArrayList<String>();
+        phonenumbers = new HashMap<String, String>();
     }
 
     public Feast(String name, String date, String time, Date dateCreated, HashMap<String, Integer>
-                                categories, ArrayList<String> phonenumbers) {
+                                categories, HashMap<String, String> phonenumbers) {
         this.name = name;
         this.date = date;
         this.time = time;
@@ -41,14 +43,15 @@ public class Feast {
 
         this.dateCreated = dateCreated;
         this.categories = categories;
-        this.phonenumbers = phonenumbers;
+        this.phonenumbers = (HashMap<String, String>)phonenumbers.clone();
+        Log.v("FEAST", "" + phonenumbers.keySet().size());
     }
 
-    public void addPhonenumber(String number){
-        phonenumbers.add(number);
-    }
+//    public void addPhonenumber(String number){
+//        phonenumbers.put(number);
+//    }
 
-    public ArrayList<String> getPhonenumbers(){
+    public HashMap<String, String> getPhonenumbers(){
         return  phonenumbers;
     }
 
