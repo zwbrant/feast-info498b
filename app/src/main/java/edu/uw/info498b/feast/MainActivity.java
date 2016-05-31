@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, DetailFeastActivity.class);
 //                Bundle extra = new Bundle();
 //                extra.putLong("id", id);
+                    intent.putExtra("position", position);
                     startActivity(intent);
                 }
             });
