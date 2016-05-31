@@ -32,6 +32,8 @@ import android.app.TimePickerDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by Nick on 5/23/16.
@@ -65,6 +67,7 @@ public class NewFeastActivity extends AppCompatActivity {
 
     public void handleSendPoll(View v) {
         Log.v(TAG, "sent poll");
+        HashMap<String, Integer> map = new HashMap<>();
         title = ((EditText) this.findViewById(R.id.edit_title)).getText().toString();
         String pollString = "Feast Poll (at " + date + " " + time + "): \n " +
                 title + " \n" +
@@ -73,6 +76,7 @@ public class NewFeastActivity extends AppCompatActivity {
 
         for(int i = 0; i < adapter.getCount(); i++) {
             pollString += (i + 1) + ". " + adapter.getItem(i) + " \n";
+            map.put(adapter.getItem(i), 0);
         }
 
         pollString += "\n" +
@@ -87,6 +91,12 @@ public class NewFeastActivity extends AppCompatActivity {
             smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
             Toast.makeText(this, "Poll sent!", Toast.LENGTH_SHORT).show();
         }
+
+
+        Feast feast = new Feast(title, date, time, new Date(), map, numbers);
+        MainActivity.feastsAdapter.add(feast);
+
+
         numbers.clear();
 
     }
