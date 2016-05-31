@@ -16,11 +16,22 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    public static final String jsonFileName = "feastJson.json" ;
 
+    public static ArrayList<Feast> feasts;
     public static FeastArrayAdapter feastsAdapter;
 
     @Override
@@ -31,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         initListView();
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,13 +58,25 @@ public class MainActivity extends AppCompatActivity {
     void initListView() {
         ListView listView = (ListView)findViewById(R.id.listView);
 
-        ArrayList<Feast> feasts = new ArrayList<Feast>();
-        //Example implementation of the ListView, with mock entries
-        //Not sure where the actual Feast data should be stored.
-        feasts.add(new Feast("salmon"));
-        feasts.add(new Feast("salmon"));
-        feasts.add(new Feast("salmon")); //Don't ask me why it's salmon
-        feasts.add(new Feast("salmon"));
+        String json = tryLoadJson();
+        if (json == null) {
+            Log.v(TAG, "***No JSON found");
+
+            feasts = new ArrayList<Feast>();
+            //Example implementation of the ListView, with mock entries
+            //Not sure where the actual Feast data should be stored.
+            feasts.add(new Feast("salmon"));
+            feasts.add(new Feast("salmon"));
+            feasts.add(new Feast("salmon")); //Don't ask me why it's salmon
+            feasts.add(new Feast("salmon"));
+        } else {
+            Gson gson = new Gson();
+            Log.v(TAG, "***Loading JSON");
+
+            Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
+            feasts = gson.fromJson(json, collectionType);
+        }
+
         feastsAdapter = new FeastArrayAdapter(this, feasts);
 
         if(listView != null) {
@@ -64,13 +86,47 @@ public class MainActivity extends AppCompatActivity {
                     Feast feast = (Feast) parent.getItemAtPosition(position);
                     Log.v(TAG, "You clicked on: " + feast);
                     Intent intent = new Intent(MainActivity.this, DetailFeastActivity.class);
-//                Bundle extra = new Bundle();
-//                extra.putLong("id", id);
+                    Bundle extra = new Bundle();
+                    extra.putInt("position", position);
                     startActivity(intent);
                 }
             });
 
             listView.setAdapter(feastsAdapter);
+        }
+    }
+
+    String tryLoadJson(){
+        try {
+            File f = new File(getFilesDir().getPath() + "/" + jsonFileName);
+            if (f == null)
+                return null;
+            FileInputStream is = new FileInputStream(f);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            return new String(buffer);
+        } catch (IOException e) {
+            Log.e("TAG", "Error in Reading: " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Gson gson = new Gson();
+        String json = gson.toJson(feasts);
+
+        try {
+            FileWriter file = new FileWriter(getFilesDir().getPath() + "/" + jsonFileName);
+            file.write(json);
+            file.flush();
+            file.close();
+            Log.v(TAG, "***Saved JSON");
+        } catch (IOException e) {
+            Log.e("TAG", "Error in Writing: " + e.getLocalizedMessage());
         }
     }
 
