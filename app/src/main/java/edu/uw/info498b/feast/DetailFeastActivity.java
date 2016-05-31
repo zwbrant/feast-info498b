@@ -32,6 +32,7 @@ public class DetailFeastActivity extends AppCompatActivity {
     private static final String TAG = "DetailFeastActivity";
     private Bundle bundle;
     private Feast feast;
+    private String winningCateg;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +49,6 @@ public class DetailFeastActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.item_time)).setText(feast.time);
             ((TextView) findViewById(R.id.item_date)).setText(feast.date);
 
-//            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mma");
-//            ((TextView) findViewById(R.id.item_time)).setText(timeFormat.format(new Date(feast.time)));
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd, yyyy");
-//            ((TextView) findViewById(R.id.item_date)).setText(dateFormat.format(new Date(feast.date)));
-
 
             // people
 
@@ -66,18 +62,29 @@ public class DetailFeastActivity extends AppCompatActivity {
             ArrayList<String> categoryList = new ArrayList<String>();
             categoryList.addAll(feast.categories.keySet());
 
+            int winningVote = 0;
+
             LinearLayout linearLayout = (LinearLayout)findViewById(R.id.detail_category_list);
             for (int i = 0; i < feast.categories.size(); i++) {
                 RelativeLayout relative = new RelativeLayout(this);
+
                 String categoryKey = categoryList.get(i);
                 int votes = feast.categories.get(categoryKey);
+
+                if (votes > winningVote) {
+                    winningVote = votes;
+                    winningCateg = categoryKey;
+                }
+
                 TextView textView = new TextView(this);
-                TextView background = new TextView(this);
                 textView.setText(categoryKey + " " + votes);
                 textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 //                textView.setId(i);
+
+                TextView background = new TextView(this);
                 background.setBackgroundResource(R.color.colorLightGray);
                 background.setLayoutParams(new LinearLayout.LayoutParams(votes * 50, LinearLayout.LayoutParams.WRAP_CONTENT));
+
                 relative.addView(background);
                 relative.addView(textView);
                 linearLayout.addView(relative);
@@ -85,10 +92,7 @@ public class DetailFeastActivity extends AppCompatActivity {
 
             if (feast.completed) {
                 // result page
-                ((ImageView) findViewById(R.id.detail_winning_image)).setVisibility(View.VISIBLE);
-//                ((TextView) findViewById(R.id.detail_winning_text)).setText(feast.winning);
-                ((TextView) findViewById(R.id.detail_winning_text)).setVisibility(View.VISIBLE);
-                ((Button) findViewById(R.id.detail_close_button)).setVisibility(View.INVISIBLE);
+                result();
             }
         }
     }
@@ -96,8 +100,12 @@ public class DetailFeastActivity extends AppCompatActivity {
     public void handleClosePoll(View v) {
         Toast.makeText(this, "Poll closed!", Toast.LENGTH_SHORT).show();
         feast.setCompleted(true);
+        result();
+    }
+
+    public void result() {
         ((ImageView) findViewById(R.id.detail_winning_image)).setVisibility(View.VISIBLE);
-//                ((TextView) findViewById(R.id.detail_winning_text)).setText(feast.winning);
+        ((TextView) findViewById(R.id.detail_winning_text)).setText(winningCateg);
         ((TextView) findViewById(R.id.detail_winning_text)).setVisibility(View.VISIBLE);
         ((Button) findViewById(R.id.detail_close_button)).setVisibility(View.INVISIBLE);
     }
