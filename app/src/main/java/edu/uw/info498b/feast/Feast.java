@@ -17,6 +17,10 @@ public class Feast {
     ArrayList<String> categories;
     ArrayList<String> phonenumbers;
 
+    public Feast(String name) {
+        new Feast(name, null, null, null);
+    }
+
     public Feast(String name, String date, String time, Date dateCreated) {
         this.name = name;
         this.date = date;
