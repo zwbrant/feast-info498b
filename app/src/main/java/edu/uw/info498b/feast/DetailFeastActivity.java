@@ -53,15 +53,29 @@ public class DetailFeastActivity extends AppCompatActivity {
             // people
 
 
+
             // food category
             ArrayList<String> categoryList = new ArrayList<String>();
             categoryList.addAll(feast.categories.keySet());
-            ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,
-                    R.layout.category_list_item, R.id.category_title, categoryList);
-            ((ListView)findViewById(R.id.detail_category_list)).setAdapter(categoryAdapter);
+            ArrayList<Integer> voteList = new ArrayList<Integer>(feast.categories.values());
 
-            // vote status
-            ArrayList<Integer> votes = (ArrayList<Integer>) feast.categories.values();
+            categoryList.add(0, "test");
+            categoryList.add(1, "test1");
+            voteList.add(0, 50);
+            voteList.add(0, 100);
+
+            CategArrayAdapter categArrayAdapter = new CategArrayAdapter(this, categoryList, voteList);
+            ((ListView)findViewById(R.id.detail_category_list)).setAdapter(categArrayAdapter);
+
+//            ArrayList<String> categoryList = new ArrayList<String>();
+//            categoryList.addAll(feast.categories.keySet());
+//            ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,
+//                    R.layout.category_list_item, R.id.category_title, categoryList);
+//            ((ListView)findViewById(R.id.detail_category_list)).setAdapter(categoryAdapter);
+//
+//            // vote status
+//            ArrayList<Integer> votes = (ArrayList<Integer>) feast.categories.values();
+
 
             if (feast.completed) {
                 // result page
