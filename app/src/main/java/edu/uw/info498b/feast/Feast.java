@@ -2,6 +2,7 @@ package edu.uw.info498b.feast;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by astro.domine on 5/21/2016.
@@ -14,7 +15,7 @@ public class Feast {
     Date dateCreated;
 
     boolean completed;
-    ArrayList<String> categories;
+    HashMap<String, Integer> categories;
     ArrayList<String> phonenumbers;
 
     public Feast(String name) {
@@ -25,16 +26,19 @@ public class Feast {
         this.name = name;
         this.date = date;
         this.time = time;
+        completed = false;
         this.dateCreated = dateCreated;
-        categories = new ArrayList<String>();
+        categories = new HashMap<String, Integer>();
         phonenumbers = new ArrayList<String>();
     }
 
-    public Feast(String name, String date, String time, Date dateCreated,
-                 ArrayList<String> categories, ArrayList<String> phonenumbers) {
+    public Feast(String name, String date, String time, Date dateCreated, HashMap<String, Integer>
+                                categories, ArrayList<String> phonenumbers) {
         this.name = name;
         this.date = date;
         this.time = time;
+        completed = false;
+
         this.dateCreated = dateCreated;
         this.categories = categories;
         this.phonenumbers = phonenumbers;
@@ -48,12 +52,21 @@ public class Feast {
         return  phonenumbers;
     }
 
-    public ArrayList<String> getCategories(){
+    public HashMap<String, Integer> getCategories(){
         return  categories;
     }
 
     public void addCategory(String category){
-        categories.add(category);
+        categories.put(category, 0);
+    }
+
+    public void  vote(String category) {
+        if (categories.containsKey(category)) {
+            categories.put(category, categories.get(category) + 1);
+        } else {
+            categories.put(category, 1);
+
+        }
     }
 
     public void setName(String name){
