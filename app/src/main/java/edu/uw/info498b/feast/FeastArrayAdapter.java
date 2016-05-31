@@ -40,13 +40,14 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
             itemView = convertView;
 
         //Disabled these until the layout is finalized
-//        ImageView icon = (ImageView)itemView.findViewById(R.id.item_icon);
-//        TextView firstLine = (TextView)itemView.findViewById(R.id.item_firstLine);
-//        TextView secondLine = (TextView)itemView.findViewById(R.id.item_secondLine);
+        ImageView icon = (ImageView)itemView.findViewById(R.id.item_icon);
+        TextView title = (TextView)itemView.findViewById(R.id.item_title);
+        TextView time = (TextView)itemView.findViewById(R.id.item_time);
+        TextView date = (TextView)itemView.findViewById(R.id.item_date);
 
-//        firstLine.setText(feasts.get(position).name);
-//        secondLine.setText("Position: " + position);
-//        icon.setImageResource(R.drawable.salmon);
+        title.setText(feasts.get(position).getName());
+        time.setText(feasts.get(position).getTime());
+        date.setText(feasts.get(position).getDate());
 
         return itemView;
     }

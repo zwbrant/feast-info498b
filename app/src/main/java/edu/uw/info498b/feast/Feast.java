@@ -55,38 +55,52 @@ public class Feast {
     public HashMap<String, Integer> getCategories(){
         return  categories;
     }
-
     public void addCategory(String category){
         categories.put(category, 0);
     }
 
-    public void  vote(String category) {
+    public void vote(String category) {
         if (categories.containsKey(category)) {
             categories.put(category, categories.get(category) + 1);
         } else {
             categories.put(category, 1);
-
         }
     }
 
     public void setName(String name){
         this.name = name;
     }
+    public String getName(){
+        return name;
+    }
 
     public void setDate(String date){
         this.date = date;
+    }
+    public String getDate(){
+        return date;
     }
 
     public void setTime(String time){
         this.time = time;
     }
+    public String getTime(){
+        return time;
+    }
 
     public void setDateCreated(Date date) {
         this.dateCreated = date;
     }
+    public Date getDateCreated(){
+        return dateCreated;
+    }
+
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+    public boolean getCompleted() {
+        return completed;
     }
 
     @Override

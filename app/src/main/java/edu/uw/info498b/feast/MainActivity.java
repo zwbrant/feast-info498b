@@ -16,8 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-//import com.google.gson.Gson;
-//import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -58,24 +59,24 @@ public class MainActivity extends AppCompatActivity {
     void initListView() {
         ListView listView = (ListView)findViewById(R.id.listView);
 
-//        String json = tryLoadJson();
-//        if (json == null) {
+        String json = tryLoadJson();
+        if (json == null) {
             Log.v(TAG, "***No JSON found");
 
             feasts = new ArrayList<Feast>();
             //Example implementation of the ListView, with mock entries
             //Not sure where the actual Feast data should be stored.
-            feasts.add(new Feast("salmon"));
-            feasts.add(new Feast("salmon"));
-            feasts.add(new Feast("salmon")); //Don't ask me why it's salmon
-            feasts.add(new Feast("salmon"));
-//        } else {
-//            Gson gson = new Gson();
-//            Log.v(TAG, "***Loading JSON");
-//
-//            Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
-//            feasts = gson.fromJson(json, collectionType);
-//        }
+            feasts.add(new Feast("Salmon celebration", "8:45pm","Apr 30th",new Date()));
+            feasts.add(new Feast("Mongoose fest", "8:45pm","Sep 30th",new Date()));
+            feasts.add(new Feast("Platypus party", "3:45pm","Oct 30th",new Date()));
+            feasts.add(new Feast("Dachshund dance", "5:45pm","May 30th",new Date()));
+        } else {
+            Gson gson = new Gson();
+            Log.v(TAG, "***Loading JSON");
+
+            Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
+            feasts = gson.fromJson(json, collectionType);
+        }
 
         feastsAdapter = new FeastArrayAdapter(this, feasts);
 
@@ -114,22 +115,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(feasts);
-//
-//        try {
-//            FileWriter file = new FileWriter(getFilesDir().getPath() + "/" + jsonFileName);
-//            file.write(json);
-//            file.flush();
-//            file.close();
-//            Log.v(TAG, "***Saved JSON");
-//        } catch (IOException e) {
-//            Log.e("TAG", "Error in Writing: " + e.getLocalizedMessage());
-//        }
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Gson gson = new Gson();
+        String json = gson.toJson(feasts);
+
+        try {
+            FileWriter file = new FileWriter(getFilesDir().getPath() + "/" + jsonFileName);
+            file.write(json);
+            file.flush();
+            file.close();
+            Log.v(TAG, "***Saved JSON");
+        } catch (IOException e) {
+            Log.e("TAG", "Error in Writing: " + e.getLocalizedMessage());
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
