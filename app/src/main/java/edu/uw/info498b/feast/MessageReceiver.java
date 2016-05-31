@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -38,15 +39,9 @@ public class MessageReceiver extends BroadcastReceiver {
                 number = msgs[0].getOriginatingAddress();
                 body = msgs[0].getMessageBody();
 
-                if (body.startsWith("FEAST: ")) {
-                    Log.d(TAG, "This is a message FEAST cares about. FROM: " + number + " BODY: " + body);
-                    if (body.length() > 8) {
-                        body = body.substring(7);
-                        processMessage(body);
-                    } else {
-                        Log.d(TAG, "No command was entered.");
-                    }
-                }
+                Log.d(TAG, "This is the received message. FROM: " + number + " BODY: " + body);
+                processMessage(body);
+
 
 
             } catch(Exception e){
@@ -56,19 +51,34 @@ public class MessageReceiver extends BroadcastReceiver {
     }
 
     private void processMessage(String body) {
-        if (body.startsWith("Vote ")) {
-            Log.d(TAG, "We are voting");
+        if (body.startsWith("FEAST ")) {
+            Log.d(TAG, "I care about this message");
+            body = body.replace(",", " ");
+            String[] parts = body.split(" ");
 
-            if (body.length() > 7) {
-                body = body.substring(6);
-                body.replace(",", " ");
+            if (parts.length > 3) {
+                int targetFeast = Integer.parseInt(parts[1]);
+                String command = parts[2].toLowerCase();
 
-                Scanner lineScanner = new Scanner(body);
-//                while()
-
+                switch (command) {
+                    case "vote" :
+                        Feast feast = MainActivity.feasts.get(targetFeast - 1);
+                        for (int i = 3; i < parts.length; i++) {
+                            feast.vote(parts[i]);
+                            Log.d(TAG, "Voting for: " + parts[i]);
+                        }
+                        return;
+                    case "add" :
+                        return;
+                    default :
+                        break;
+                }
             } else {
-                Log.d(TAG, "Vote command registered but nothing was voted for");
+                Log.d(TAG, "User left out something");
             }
+
+        } else {
+            Log.d(TAG, "I don't care about this message");
         }
     }
 }
