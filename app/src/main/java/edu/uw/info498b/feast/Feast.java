@@ -16,7 +16,7 @@ public class Feast {
 
     boolean completed;
     HashMap<String, Integer> categories;
-    ArrayList<String> phonenumbers;
+    HashMap<String, String> phonenumbers;
 
     public Feast(String name) {
         this(name, null, null, null);
@@ -29,11 +29,11 @@ public class Feast {
         completed = false;
         this.dateCreated = dateCreated;
         categories = new HashMap<String, Integer>();
-        phonenumbers = new ArrayList<String>();
+        phonenumbers = new HashMap<String, String>();
     }
 
     public Feast(String name, String date, String time, Date dateCreated, HashMap<String, Integer>
-                                categories, ArrayList<String> phonenumbers) {
+                                categories, HashMap<String, String> phonenumbers) {
         this.name = name;
         this.date = date;
         this.time = time;
@@ -44,11 +44,11 @@ public class Feast {
         this.phonenumbers = phonenumbers;
     }
 
-    public void addPhonenumber(String number){
-        phonenumbers.add(number);
-    }
+//    public void addPhonenumber(String number){
+//        phonenumbers.put(number);
+//    }
 
-    public ArrayList<String> getPhonenumbers(){
+    public HashMap<String, String> getPhonenumbers(){
         return  phonenumbers;
     }
 

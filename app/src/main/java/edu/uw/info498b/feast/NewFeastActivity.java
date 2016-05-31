@@ -43,7 +43,7 @@ public class NewFeastActivity extends AppCompatActivity {
     public static final String ACTION_SMS_SENT = "edu.uw.info498b.feast.ACTION_SMS_SENT";
     private static final int SEND_CODE = 0;
     private static final int PICK_CONTACT_REQUEST = 1;
-    private ArrayList<String> numbers;
+    private HashMap<String, String> numbers;
     public static String date;
     public static String time;
     private String title;
@@ -56,7 +56,7 @@ public class NewFeastActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_feast);
         setTitle("New Feast");
-        numbers = new ArrayList<>();
+        numbers = new HashMap<>();
         //controller
         adapter = new ArrayAdapter<String>(this,
                 R.layout.category_item, R.id.txtItem, new ArrayList<String>()); //define adapter
@@ -82,7 +82,8 @@ public class NewFeastActivity extends AppCompatActivity {
         pollString += "\n" +
                 "OR REPLY \"FEAST: [custom entry]\" to add to the poll";
 
-        for(String number: numbers) {
+
+        for(String number: numbers.keySet()) {
             SmsManager smsManager = SmsManager.getDefault();
 
             Intent smsIntent = new Intent(ACTION_SMS_SENT);
@@ -122,14 +123,17 @@ public class NewFeastActivity extends AppCompatActivity {
                 // The user picked a contact.
                 // The Intent's data Uri identifies which contact was selected.
                 Uri contactUri = data.getData();
-                String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+                String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
                 Cursor cursor = getContentResolver()
                         .query(contactUri, projection, null, null, null);
                 cursor.moveToFirst();
 
                 int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                int columnNames = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 String number = cursor.getString(column);
-                numbers.add(number);
+                String name = cursor.getString(columnNames);
+                numbers.put(number, name);
+                Log.v(TAG, number + " " + name);
 
             }
         }
