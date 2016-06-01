@@ -61,7 +61,10 @@ public class MainActivity extends AppCompatActivity {
     void initListView() {
         ListView listView = (ListView)findViewById(R.id.listView);
 
+        //Log.d(TAG, "Size before loading: " + feasts.size());
+
         if(feasts == null) {
+            Log.d(TAG, "No list. Making one");
             feasts = new ArrayList<>();
         }
 
@@ -89,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
             Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
             feasts = gson.fromJson(json, collectionType);
+            Log.d(TAG, "Here is the size post loading: " + feasts.size());
         }
 
 
