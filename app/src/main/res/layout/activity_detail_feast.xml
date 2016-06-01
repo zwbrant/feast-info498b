@@ -43,16 +43,8 @@
         android:text="May 20, 2016"
         android:textSize="18sp" />
 
-    <ImageView
-        android:layout_below="@id/item_date"
-        android:id="@+id/detail_winning_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"/>
-
     <TextView
-        android:layout_below="@id/detail_winning_image"
+        android:layout_below="@id/item_date"
         android:id="@+id/detail_winning_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,12 +55,20 @@
         android:layout_marginBottom="20dp"
         android:visibility="invisible"/>
 
+    <ImageView
+        android:layout_below="@id/detail_winning_text"
+        android:id="@+id/detail_winning_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/salmon"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/detail_people_text"
         android:text="People:"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:layout_below="@id/detail_winning_text"
+        android:layout_below="@id/detail_winning_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

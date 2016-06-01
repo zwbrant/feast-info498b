@@ -62,7 +62,6 @@ public class DetailFeastActivity extends AppCompatActivity {
 
             // people
             if (feast.getPhonenumbers() != null) {
-
                 Set<String> numbers = (Set<String>) feast.getPhonenumbers().keySet();
                 LinearLayout contactContainer = (LinearLayout)findViewById(R.id.item_contactImages);
 
