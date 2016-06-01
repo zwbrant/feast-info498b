@@ -1,12 +1,16 @@
 package edu.uw.info498b.feast;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
@@ -40,7 +44,7 @@ public class MessageReceiver extends BroadcastReceiver {
                 body = msgs[0].getMessageBody();
 
                 Log.d(TAG, "This is the received message. FROM: " + number + " BODY: " + body);
-                processMessage(body);
+                processMessage(body,number, context);
 
 
 
@@ -50,7 +54,7 @@ public class MessageReceiver extends BroadcastReceiver {
         }
     }
 
-    private void processMessage(String body) {
+    private void processMessage(String body, String number, Context context) {
         if (body.startsWith("FEAST ")) {
             Log.d(TAG, "I care about this message");
             body = body.replace(",", "");
@@ -59,6 +63,10 @@ public class MessageReceiver extends BroadcastReceiver {
             if (parts.length > 3) {
                 int targetFeast = Integer.parseInt(parts[1]);
                 String command = parts[2].toLowerCase();
+                SharedPreferences prefs = context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE);
+                Boolean notifySetting = prefs.getBoolean("pref_notifications", true);
+                if (notifySetting)
+                    notify(context, number, body);
 
                 switch (command) {
                     case "vote" :
@@ -75,6 +83,8 @@ public class MessageReceiver extends BroadcastReceiver {
                     default :
                         break;
                 }
+
+
             } else {
                 Log.d(TAG, "User left out something");
             }
@@ -82,5 +92,32 @@ public class MessageReceiver extends BroadcastReceiver {
         } else {
             Log.d(TAG, "I don't care about this message");
         }
+    }
+
+    private static final int NOTIFY_CODE = 0;
+
+    public void notify(Context context, String sender, String message) {
+        Log.v(TAG, "notifying");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.japanese)
+                .setContentTitle(sender)
+                .setContentText(message);
+
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setVibrate(new long[] {0, 300, 300, 300});
+        builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+
+        Intent intent = new Intent(context, MainActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(intent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(NOTIFY_CODE, builder.build());
+
     }
 }
