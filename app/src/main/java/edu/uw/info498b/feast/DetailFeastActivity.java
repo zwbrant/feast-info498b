@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Nick on 5/23/16.
@@ -51,6 +53,39 @@ public class DetailFeastActivity extends AppCompatActivity {
 
 
             // people
+            if (feast.getPhonenumbers() != null) {
+
+                Set<String> numbers = (Set<String>) feast.getPhonenumbers().keySet();
+                LinearLayout contactContainer = (LinearLayout)findViewById(R.id.item_contactImages);
+
+                for (String key :numbers) {
+                    String name = feast.getPhonenumbers().get(key);
+                    Log.v(TAG, "****Adding " + name);
+                    String[] subNames = name.split(" ");
+                    String initial = "";
+
+                    initial += Character.toUpperCase(subNames[0].charAt(0));
+                    if (subNames.length > 1)
+                        initial += Character.toUpperCase(subNames[subNames.length - 1].charAt(0));
+
+                    TextView textView = new TextView(this);
+                    textView.setText(initial);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+
+                    LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    textView.setLayoutParams(lps);
+                    lps.setMargins(0,0, 15,10);
+//                textView.setId(i);
+
+
+                    contactContainer.addView(textView);
+
+
+                }
+            } else {
+                Log.v(TAG, "****No Numbers detected ");
+
+            }
 
 
 
