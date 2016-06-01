@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         if(feastsAdapter == null) {
             feastsAdapter = new FeastArrayAdapter(this, feasts);
         }
+
         String json = tryLoadJson();
         if (json == null) {
             Log.v(TAG, "***No JSON found");
@@ -91,7 +92,12 @@ public class MainActivity extends AppCompatActivity {
             Log.v(TAG, "There are " + feastsAdapter.getCount() + " Feasts");
 
             Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
-            feasts = gson.fromJson(json, collectionType);
+            ArrayList<Feast> temp = gson.fromJson(json, collectionType);
+
+            for (Feast feast : temp) {
+                feasts.add(feast);
+            }
+
             Log.d(TAG, "Here is the size post loading: " + feasts.size());
         }
 
