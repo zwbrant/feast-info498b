@@ -114,7 +114,7 @@ public class NewFeastActivity extends AppCompatActivity {
         startActivity(intent);
 
 
-        //numbers.clear();
+//        numbers.clear();
 
     }
 

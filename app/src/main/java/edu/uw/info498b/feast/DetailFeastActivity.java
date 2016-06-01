@@ -62,7 +62,6 @@ public class DetailFeastActivity extends AppCompatActivity {
 
             // people
             if (feast.getPhonenumbers() != null) {
-
                 Set<String> numbers = (Set<String>) feast.getPhonenumbers().keySet();
                 LinearLayout contactContainer = (LinearLayout)findViewById(R.id.item_contactImages);
 
@@ -96,21 +95,26 @@ public class DetailFeastActivity extends AppCompatActivity {
 
             }
 
-
-
             // food category
-//            feast.categories.put("Korean", 10);
-//            feast.categories.put("Chinese", 8);
-//            feast.categories.put("Mexican", 15);
+//            feast.categories.put("Korean", 1);
+//            feast.categories.put("tae", 2);
+//            feast.categories.put("Mexican", 3);
+//            feast.categories.put("American", 0);
 
             ArrayList<String> categoryList = new ArrayList<String>();
             categoryList.addAll(feast.categories.keySet());
 
             int winningVote = 0;
+            winningCateg = "There is no category won";
 
             LinearLayout linearLayout = (LinearLayout)findViewById(R.id.detail_category_list);
+            int width = 1000 / feast.phonenumbers.size();
+
             for (int i = 0; i < feast.categories.size(); i++) {
                 RelativeLayout relative = new RelativeLayout(this);
+                LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                relative.setLayoutParams(lps);
+                lps.setMargins(0,10,0,0);
 
                 String categoryKey = categoryList.get(i);
                 int votes = feast.categories.get(categoryKey);
@@ -127,7 +131,7 @@ public class DetailFeastActivity extends AppCompatActivity {
 
                 TextView background = new TextView(this);
                 background.setBackgroundResource(R.color.colorLightGray);
-                background.setLayoutParams(new LinearLayout.LayoutParams(votes * 50, LinearLayout.LayoutParams.WRAP_CONTENT));
+                background.setLayoutParams(new LinearLayout.LayoutParams(votes * width, LinearLayout.LayoutParams.WRAP_CONTENT));
 
                 relative.addView(background);
                 relative.addView(textView);
@@ -159,13 +163,19 @@ public class DetailFeastActivity extends AppCompatActivity {
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, SEND_CODE, smsIntent, 0);
             smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
-            Toast.makeText(this, "Result sent!", Toast.LENGTH_SHORT).show();
         }
 
         result();
+        Toast.makeText(this, "Result sent!", Toast.LENGTH_SHORT).show();
     }
 
     public void result() {
+        int imgId = getResources().getIdentifier(winningCateg.toLowerCase(), "drawable", getPackageName());
+        if(imgId != 0) {
+            findViewById(R.id.detail_winning_image).setBackgroundResource(imgId);
+        } else {
+            findViewById(R.id.detail_winning_image).setBackgroundResource(R.drawable.others);
+        }
         ((ImageView) findViewById(R.id.detail_winning_image)).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.detail_winning_text)).setText(winningCateg);
         ((TextView) findViewById(R.id.detail_winning_text)).setVisibility(View.VISIBLE);
