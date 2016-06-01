@@ -83,11 +83,12 @@ public class NewFeastActivity extends AppCompatActivity {
 
         if (adapterPeople.getCount() > 0 && adapterCategory.getCount() > 0 && title.length() > 0) {
             Log.v(TAG, "Sending poll");
+
             HashMap<String, Integer> map = new HashMap<>();
             String pollString = "Feast Poll (at " + date + " " + time + "): \n " +
                     title + " \n" +
-                    "Reply with name to vote: \n" +
-                    " \n";
+                    "Reply with 'FEAST " + MainActivity.feastsAdapter.getCount() + 1 + " Vote' followed by each category you'd like to vote for." +
+                    "\n Eg: 'FEAST 2 Vote mexican, italian, chinese'";
 
             for(int i = 0; i < adapterCategory.getCount(); i++) {
                 pollString += (i + 1) + ". " + adapterCategory.getItem(i) + " \n";
@@ -95,16 +96,18 @@ public class NewFeastActivity extends AppCompatActivity {
             }
 
             pollString += "\n" +
-                    "OR REPLY \"FEAST: [custom entry]\" to add to the poll";
+                    "To add a category simply vote for it.";
 
             //Send an SMS to each number
             for(String number: numbers.keySet()) {
-                SmsManager smsManager = SmsManager.getDefault();
-
-                Intent smsIntent = new Intent(ACTION_SMS_SENT);
-
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, SEND_CODE, smsIntent, 0);
-                smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
+                Log.d(TAG, "Sending text to: " + number);
+                Intent smsIntent = new Intent(this, SMSSendService.class);
+                smsIntent.setAction(SMSSendService.ACTION_SMS_STATUS);
+                Bundle extra = new Bundle();
+                extra.putString("number", number);
+                extra.putString("message", pollString);
+                smsIntent.putExtras(extra);
+                this.startService(smsIntent);
             }
 
             Feast feast = new Feast(title, date, time, new Date(), map, numbers);
@@ -112,7 +115,6 @@ public class NewFeastActivity extends AppCompatActivity {
 
             if(MainActivity.feastsAdapter.getCount() < MainActivity.feastsAdapter.getCount() + 1) {
                 MainActivity.feastsAdapter.add(feast);
-                MainActivity.feasts.add(feast);
                 Log.d(TAG, MainActivity.feastsAdapter.getCount() + " and " + MainActivity.feasts.size());
                 Log.v(TAG, "feast added");
             }
