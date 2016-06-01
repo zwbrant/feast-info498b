@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         initListView();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.listView);
 
         if(feasts == null) {
-            feasts = new ArrayList<>();
+            feasts = new ArrayList<Feast>();
         }
 
         if(feastsAdapter == null) {
@@ -108,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
             });
 
             listView.setAdapter(feastsAdapter);
+
         }
+
     }
 
     String tryLoadJson(){

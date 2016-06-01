@@ -45,25 +45,10 @@
         android:layout_below="@id/item_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="13dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="6dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/contact_name_1"
-            android:text="AZ"
-            android:textSize="22sp"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp" />
 
-        <TextView
-            android:id="@+id/item_plusPeople"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+4"
-            android:textSize="17sp" />
     </LinearLayout>
 </RelativeLayout>

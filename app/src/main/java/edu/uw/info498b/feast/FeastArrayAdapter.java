@@ -1,8 +1,11 @@
 package edu.uw.info498b.feast;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.github.ivbaranov.mli.MaterialLetterIcon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +61,8 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
         TextView time = (TextView)itemView.findViewById(R.id.item_time);
         TextView date = (TextView)itemView.findViewById(R.id.item_date);
         LinearLayout contactContainer = (LinearLayout)itemView.findViewById(R.id.item_contactContainer);
-        if(((LinearLayout) contactContainer).getChildCount() > 0)
-            ((LinearLayout) contactContainer).removeAllViews();
+//        if(((LinearLayout) contactContainer).getChildCount() > 0)
+//            ((LinearLayout) contactContainer).removeAllViews();
 
         title.setText(feast.getName());
         time.setText(feast.getTime());
@@ -77,18 +84,39 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
                 if (subNames.length > 1)
                     initial += Character.toUpperCase(subNames[subNames.length - 1].charAt(0));
 
-                TextView textView = new TextView(getContext());
-                textView.setText(initial);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorJelly));
+//                TextView textView = new TextView(getContext());
+//                textView.setText(initial);
+//                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+//                textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorJelly));
+//
+                ColorGenerator generator = ColorGenerator.MATERIAL;
+                int color = generator.getColor(initial);
+
+                ImageView imgView = new ImageView(getContext());
+
+                TextDrawable drawable = TextDrawable.builder()
+                        .beginConfig()
+                        .width(95)  // width in px
+                        .height(95) // height in px
+                        .useFont(Typeface.DEFAULT_BOLD)
+                        .endConfig()
+                        .buildRound(initial, color);
+
+                imgView.setImageDrawable(drawable);
+
+
 
                 LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                textView.setLayoutParams(lps);
-                lps.setMargins(0,0, 10,0);
-//                textView.setId(i);
+                lps.setMargins(0,0, 20,0);
+//                lps.gravity = Gravity.LEFT;
+                imgView.setLayoutParams(lps);
+
+                //matIcon.setId(i);
 
 
-                contactContainer.addView(textView);
+                contactContainer.addView(imgView);
+
+
             }
         } else {
             Log.v(TAG, "****No Numbers detected ");
