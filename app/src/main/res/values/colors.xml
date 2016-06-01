@@ -5,4 +5,12 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorLightGray">#e6e6e6</color>
     <color name="colorWhite">#ffffff</color>
+
+    <color name="colorUWPurple">#4b2e83</color>
+    <color name="colorUWGold">#b7a57a</color>
+    <color name="colorUWMetGold">#85754d</color>
+    <color name="colorBronze">#B4773D</color>
+    <color name="colorYellowGreen">#B4A23D</color>
+    <color name="colorJelly">#963362</color>
+
 </resources>

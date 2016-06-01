@@ -45,6 +45,8 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
         else
             itemView = convertView;
 
+        Feast feast = feasts.get(position);
+
         //Disabled these until the layout is finalized
         ImageView icon = (ImageView)itemView.findViewById(R.id.item_icon);
         TextView title = (TextView)itemView.findViewById(R.id.item_title);
@@ -54,18 +56,18 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
         if(((LinearLayout) contactContainer).getChildCount() > 0)
             ((LinearLayout) contactContainer).removeAllViews();
 
-        title.setText(feasts.get(position).getName());
-        time.setText(feasts.get(position).getTime());
-        date.setText(feasts.get(position).getDate());
+        title.setText(feast.getName());
+        time.setText(feast.getTime());
+        date.setText(feast.getDate());
 
-        if (feasts.get(position).getPhonenumbers() != null) {
+        if (feast.getPhonenumbers() != null) {
 
-            Set<String> numbers = (Set<String>) feasts.get(position).getPhonenumbers().keySet();
+            Set<String> numbers = (Set<String>) feast.getPhonenumbers().keySet();
 
             Log.v(TAG, "****" + title.getText() + " Numbers detected " + numbers.size());
 
             for (String key :numbers) {
-                String name = feasts.get(position).getPhonenumbers().get(key);
+                String name = feast.getPhonenumbers().get(key);
                 Log.v(TAG, "****Adding " + name);
                 String[] subNames = name.split(" ");
                 String initial = "";
@@ -76,7 +78,8 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
 
                 TextView textView = new TextView(getContext());
                 textView.setText(initial);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorJelly));
 
                 LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 textView.setLayoutParams(lps);
@@ -85,8 +88,6 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
 
 
                 contactContainer.addView(textView);
-
-
             }
         } else {
             Log.v(TAG, "****No Numbers detected ");

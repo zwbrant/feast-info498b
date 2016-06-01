@@ -99,7 +99,7 @@ public class NewFeastActivity extends AppCompatActivity {
         MainActivity.feastsAdapter.add(feast);
 
 
-        //numbers.clear();
+        numbers.clear();
 
     }
 
