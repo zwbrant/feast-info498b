@@ -1,126 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="15dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/when_text"
-        android:text="When"
-        android:textSize="20sp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/pick_time_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/when_text"
-        android:text="PICK TIME"
-        android:layout_marginLeft="70dp"
-        android:background="@android:color/holo_blue_bright"
-        android:onClick="handlePickTime"/>
-
-    <Button
-        android:id="@+id/pick_date_button"
-        android:text="PICK DATE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/when_text"
-        android:background="@android:color/holo_blue_bright"
-        android:layout_toRightOf="@id/pick_time_button"
-        android:layout_marginLeft="20dp"
-        android:onClick="handlePickDate"/>
-
-
-    <TextView
-        android:id="@+id/what_text"
-        android:text="What"
-        android:layout_below="@id/pick_time_button"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/edit_title"
-        android:layout_below="@id/what_text"
-        android:hint="Title"
-        android:layout_marginTop="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/people_text"
-        android:text="People"
-        android:textSize="20sp"
-        android:layout_below="@id/edit_title"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </FrameLayout>
 
-    <Button
-        android:id="@+id/add_person_button"
-        android:layout_below="@id/people_text"
-        android:text="ADD PERSON"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_bright"
-        android:onClick="handleAddPerson"/>
+        <TextView
+            android:id="@+id/when_text"
+            android:text="When"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <ListView
-        android:id="@+id/person_list"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/add_person_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        <Button
+            android:id="@+id/pick_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/when_text"
+            android:text="PICK TIME"
+            android:layout_marginLeft="70dp"
+            android:background="@android:color/holo_blue_bright"
+            android:onClick="handlePickTime"/>
 
-    <TextView
-        android:id="@+id/category_text"
-        android:text="Food Categories"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/person_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/pick_date_button"
+            android:text="PICK DATE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/when_text"
+            android:background="@android:color/holo_blue_bright"
+            android:layout_toRightOf="@id/pick_time_button"
+            android:layout_marginLeft="20dp"
+            android:onClick="handlePickDate"/>
 
-    <Button
-        android:id="@+id/category_button"
-        android:layout_below="@id/category_text"
-        android:text="ADD CATEGORY"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_bright"
-        android:onClick="handleAddCategory"/>
 
-    <ListView
-        android:id="@+id/category_list"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/category_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        <TextView
+            android:id="@+id/what_text"
+            android:text="What"
+            android:layout_below="@id/pick_time_button"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/send_poll_button"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/category_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SEND POLL"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/holo_red_dark"
-        android:onClick="handleSendPoll"/>
+        <EditText
+            android:id="@+id/edit_title"
+            android:layout_below="@id/what_text"
+            android:hint="Title"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/people_text"
+            android:text="People"
+            android:textSize="20sp"
+            android:layout_below="@id/edit_title"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/add_person_button"
+            android:layout_below="@id/people_text"
+            android:text="ADD PERSON"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:onClick="handleAddPerson"/>
+
+        <ListView
+            android:id="@+id/person_list"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/add_person_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+        <TextView
+            android:id="@+id/category_text"
+            android:text="Food Categories"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/person_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/category_button"
+            android:layout_below="@id/category_text"
+            android:text="ADD CATEGORY"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:onClick="handleAddCategory"/>
+
+        <ListView
+            android:id="@+id/category_list"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/category_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+        <Button
+            android:id="@+id/send_poll_button"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/category_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEND POLL"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/holo_red_dark"
+            android:onClick="handleSendPoll"/>
+
+    </RelativeLayout>
+
+</ScrollView>
