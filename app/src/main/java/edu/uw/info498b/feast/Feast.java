@@ -1,10 +1,13 @@
 package edu.uw.info498b.feast;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
 
 /**
  * Created by astro.domine on 5/21/2016.
@@ -15,10 +18,12 @@ public class Feast {
     String date;
     String time;
     Date dateCreated;
+    int color;
 
     boolean completed;
     HashMap<String, Integer> categories;
-    public HashMap<String, String> phonenumbers;
+    HashMap<String, String> phonenumbers;
+    ArrayList<Integer> colorArrayList;
 
     public Feast(String name) {
         this(name, null, null, null);
@@ -32,10 +37,12 @@ public class Feast {
         this.dateCreated = dateCreated;
         categories = new HashMap<String, Integer>();
         phonenumbers = new HashMap<String, String>();
+        colorArrayList = new ArrayList<>();
+        color = pickColor();
     }
 
     public Feast(String name, String date, String time, Date dateCreated, HashMap<String, Integer>
-                                categories, HashMap<String, String> phonenumbers) {
+            categories, HashMap<String, String> phonenumbers) {
         this.name = name;
         this.date = date;
         this.time = time;
@@ -43,8 +50,9 @@ public class Feast {
 
         this.dateCreated = dateCreated;
         this.categories = categories;
-        this.phonenumbers = (HashMap<String, String>)phonenumbers.clone();
-        Log.v("FEAST", "" + phonenumbers.keySet().size());
+        this.phonenumbers = phonenumbers;
+        colorArrayList = new ArrayList<>();
+        color = pickColor();
     }
 
 //    public void addPhonenumber(String number){
@@ -90,6 +98,7 @@ public class Feast {
     public String getTime(){
         return time;
     }
+    public int getColor() {return color;}
 
     public void setDateCreated(Date date) {
         this.dateCreated = date;
@@ -109,6 +118,24 @@ public class Feast {
     @Override
     public String toString(){
         return name;
+    }
+
+    private int pickColor() {
+        colorArrayList.add(Color.argb(255, 67, 145, 171));
+        colorArrayList.add(Color.argb(255, 255, 218, 185));
+        colorArrayList.add(Color.argb(255, 240, 255, 240));
+        colorArrayList.add(Color.argb(255, 240, 255, 25));
+        colorArrayList.add(Color.argb(255, 210, 105, 30));
+        colorArrayList.add(Color.argb(255, 245, 255, 250));
+        colorArrayList.add(Color.argb(255, 119, 136, 153));
+
+        Random r = new Random();
+        int picker = r.nextInt(colorArrayList.size() - 1);
+
+        Log.v("TAG", "" + colorArrayList.get(picker));
+
+        return colorArrayList.get(picker);
+
     }
 
 }
