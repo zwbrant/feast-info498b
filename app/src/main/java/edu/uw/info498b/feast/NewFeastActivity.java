@@ -101,13 +101,10 @@ public class NewFeastActivity extends AppCompatActivity {
             //Send an SMS to each number
             for(String number: numbers.keySet()) {
                 Log.d(TAG, "Sending text to: " + number);
-                Intent smsIntent = new Intent(this, SMSSendService.class);
-                smsIntent.setAction(SMSSendService.ACTION_SMS_STATUS);
-                Bundle extra = new Bundle();
-                extra.putString("number", number);
-                extra.putString("message", pollString);
-                smsIntent.putExtras(extra);
-                this.startService(smsIntent);
+                SmsManager smsManager = SmsManager.getDefault();
+                Intent smsIntent = new Intent(ACTION_SMS_SENT);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, SEND_CODE, smsIntent, 0);
+                smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
             }
 
             Feast feast = new Feast(title, date, time, new Date(), map, numbers);

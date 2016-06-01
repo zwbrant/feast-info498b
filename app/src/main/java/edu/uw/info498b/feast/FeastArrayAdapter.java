@@ -61,13 +61,14 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
         TextView time = (TextView)itemView.findViewById(R.id.item_time);
         TextView date = (TextView)itemView.findViewById(R.id.item_date);
         LinearLayout contactContainer = (LinearLayout)itemView.findViewById(R.id.item_contactContainer);
-//        if(((LinearLayout) contactContainer).getChildCount() > 0)
-//            ((LinearLayout) contactContainer).removeAllViews();
 
         title.setText(feast.getName());
         time.setText(feast.getTime());
         date.setText(feast.getDate());
 
+        if (contactContainer.getChildCount() > 0) {
+            contactContainer.removeAllViews();
+        }
         if (feast.getPhonenumbers() != null) {
 
             Set<String> numbers = (Set<String>) feast.getPhonenumbers().keySet();
@@ -84,11 +85,6 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
                 if (subNames.length > 1)
                     initial += Character.toUpperCase(subNames[subNames.length - 1].charAt(0));
 
-//                TextView textView = new TextView(getContext());
-//                textView.setText(initial);
-//                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-//                textView.setBackgroundColor(getContext().getResources().getColor(R.color.colorJelly));
-//
                 ColorGenerator generator = ColorGenerator.MATERIAL;
                 int color = generator.getColor(initial);
 
