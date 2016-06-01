@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             Gson gson = new Gson();
             Log.v(TAG, "***Loading JSON");
 
-            Log.v(TAG, "" + feastsAdapter.getCount());
+            Log.v(TAG, "There are " + feastsAdapter.getCount() + " Feasts");
 
             Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
             feasts = gson.fromJson(json, collectionType);

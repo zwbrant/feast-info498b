@@ -105,6 +105,7 @@ public class DetailFeastActivity extends AppCompatActivity {
             categoryList.addAll(feast.categories.keySet());
 
             int winningVote = 0;
+            winningCateg = "There is no category won";
 
             LinearLayout linearLayout = (LinearLayout)findViewById(R.id.detail_category_list);
             int width = 1000 / feast.phonenumbers.size();
