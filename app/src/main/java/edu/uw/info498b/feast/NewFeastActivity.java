@@ -57,9 +57,9 @@ public class NewFeastActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_feast);
         setTitle("New Feast");
-        numbers = new HashMap<String, String>();
+        numbers = new HashMap<>();
         //controller
-        adapter = new ArrayAdapter<String>(this,
+        adapter = new ArrayAdapter<>(this,
                 R.layout.category_item, R.id.txtItem, new ArrayList<String>()); //define adapter
 
         ListView listView = (ListView)findViewById(R.id.category_list);
@@ -96,13 +96,19 @@ public class NewFeastActivity extends AppCompatActivity {
 
 
         Feast feast = new Feast(title, date, time, new Date(), map, numbers);
-        MainActivity.feastsAdapter.add(feast);
+        Log.v(TAG, feast.toString());
+
+        if(MainActivity.feastsAdapter.getCount() < MainActivity.feastsAdapter.getCount() + 1) {
+            MainActivity.feastsAdapter.add(feast);
+            MainActivity.feasts.add(feast);
+            Log.v(TAG, "feast added");
+        }
 
         Intent intent = new Intent(NewFeastActivity.this, MainActivity.class);
         startActivity(intent);
 
 
-        numbers.clear();
+//        numbers.clear();
 
     }
 

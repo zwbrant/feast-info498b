@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v(TAG, "add new stuf3wqejrfnd safkjaf");
 
                 Intent intent = new Intent(MainActivity.this, NewFeastActivity.class);
                 startActivity(intent);
@@ -62,28 +61,37 @@ public class MainActivity extends AppCompatActivity {
     void initListView() {
         ListView listView = (ListView)findViewById(R.id.listView);
 
+        if(feasts == null) {
+            feasts = new ArrayList<>();
+        }
+
+        if(feastsAdapter == null) {
+            feastsAdapter = new FeastArrayAdapter(this, feasts);
+        }
         String json = tryLoadJson();
         if (json == null) {
             Log.v(TAG, "***No JSON found");
 
-            feasts = new ArrayList<Feast>();
+
             //Example implementation of the ListView, with mock entries
             //Not sure where the actual Feast data should be stored.
-
-            feasts.add(new Feast("Salmon celebration", "8:45pm","Apr 30th",new Date()));
-            feasts.add(new Feast("Mongoose fest", "8:45pm","Sep 30th",new Date()));
-            feasts.add(new Feast("Platypus party", "3:45pm","Oct 30th",new Date()));
-            feasts.add(new Feast("Dachshund dance", "5:45pm","May 30th",new Date()));
+//
+//            feasts.add(new Feast("Salmon celebration", "8:45pm","Apr 30th",new Date()));
+//            feasts.add(new Feast("Mongoose fest", "8:45pm","Sep 30th",new Date()));
+//            feasts.add(new Feast("Platypus party", "3:45pm","Oct 30th",new Date()));
+//            feasts.add(new Feast("Dachshund dance", "5:45pm","May 30th",new Date()));
 
         } else {
             Gson gson = new Gson();
             Log.v(TAG, "***Loading JSON");
 
+            Log.v(TAG, "" + feastsAdapter.getCount());
+
             Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
             feasts = gson.fromJson(json, collectionType);
         }
 
-        feastsAdapter = new FeastArrayAdapter(this, feasts);
+
 
         if(listView != null) {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
