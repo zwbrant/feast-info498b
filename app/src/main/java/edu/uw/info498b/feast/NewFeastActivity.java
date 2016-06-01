@@ -98,6 +98,9 @@ public class NewFeastActivity extends AppCompatActivity {
         Feast feast = new Feast(title, date, time, new Date(), map, numbers);
         MainActivity.feastsAdapter.add(feast);
 
+        Intent intent = new Intent(NewFeastActivity.this, MainActivity.class);
+        startActivity(intent);
+
 
         numbers.clear();
 

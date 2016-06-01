@@ -49,6 +49,7 @@ public class FeastArrayAdapter extends ArrayAdapter<Feast> {
 
         //Disabled these until the layout is finalized
         ImageView icon = (ImageView)itemView.findViewById(R.id.item_icon);
+        icon.setBackgroundColor(feasts.get(position).getColor());
         TextView title = (TextView)itemView.findViewById(R.id.item_title);
         TextView time = (TextView)itemView.findViewById(R.id.item_time);
         TextView date = (TextView)itemView.findViewById(R.id.item_date);

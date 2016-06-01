@@ -11,8 +11,7 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/salmon" />
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/item_title"
