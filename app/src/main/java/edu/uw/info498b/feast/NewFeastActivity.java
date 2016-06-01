@@ -168,7 +168,7 @@ public class NewFeastActivity extends AppCompatActivity {
 
         alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String category = edittext.getText().toString();
+                String category = edittext.getText().toString().toLowerCase();
                 adapterCategory.add(category);
             }
         });

@@ -71,6 +71,7 @@ public class Feast {
     }
 
     public void vote(String category) {
+        category = category.toLowerCase();
         if (categories.containsKey(category)) {
             categories.put(category, categories.get(category) + 1);
         } else {

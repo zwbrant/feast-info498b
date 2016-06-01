@@ -53,7 +53,7 @@ public class MessageReceiver extends BroadcastReceiver {
     private void processMessage(String body) {
         if (body.startsWith("FEAST ")) {
             Log.d(TAG, "I care about this message");
-            body = body.replace(",", " ");
+            body = body.replace(",", "");
             String[] parts = body.split(" ");
 
             if (parts.length > 3) {
