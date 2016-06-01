@@ -8,8 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.format.DateFormat;
+import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TimePicker;
 import android.app.Activity;
@@ -49,6 +52,8 @@ public class NewFeastActivity extends AppCompatActivity {
     private String title;
     private ArrayAdapter<String> adapterCategory;
     private ArrayAdapter<String> adapterPeople;
+    private ListView listViewCategory;
+    private ListView listViewPeople;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,22 +71,24 @@ public class NewFeastActivity extends AppCompatActivity {
         adapterPeople = new ArrayAdapter<>(this,
                 R.layout.category_item, R.id.txtItem, new ArrayList<String>()); //define adapter
 
-        ListView listViewCategory = (ListView)findViewById(R.id.category_list);
-        ListView listViewPeople = (ListView)findViewById(R.id.person_list);
+        listViewCategory = (ListView)findViewById(R.id.category_list);
+        listViewPeople = (ListView)findViewById(R.id.person_list);
         listViewCategory.setAdapter(adapterCategory); //set adapter
         listViewPeople.setAdapter(adapterPeople);
     }
+
 
     public void handleSendPoll(View v) {
         title = ((EditText) this.findViewById(R.id.edit_title)).getText().toString();
 
         if (adapterPeople.getCount() > 0 && adapterCategory.getCount() > 0 && title.length() > 0) {
             Log.v(TAG, "Sending poll");
+
             HashMap<String, Integer> map = new HashMap<>();
             String pollString = "Feast Poll (at " + date + " " + time + "): \n " +
                     title + " \n" +
-                    "Reply with name to vote: \n" +
-                    " \n";
+                    "Reply with 'FEAST " + MainActivity.feastsAdapter.getCount() + 1 + " Vote' followed by each category you'd like to vote for." +
+                    "\n Eg: 'FEAST 2 Vote mexican, italian, chinese'";
 
             for(int i = 0; i < adapterCategory.getCount(); i++) {
                 pollString += (i + 1) + ". " + adapterCategory.getItem(i) + " \n";
@@ -89,16 +96,18 @@ public class NewFeastActivity extends AppCompatActivity {
             }
 
             pollString += "\n" +
-                    "OR REPLY \"FEAST: [custom entry]\" to add to the poll";
+                    "To add a category simply vote for it.";
 
             //Send an SMS to each number
             for(String number: numbers.keySet()) {
-                SmsManager smsManager = SmsManager.getDefault();
-
-                Intent smsIntent = new Intent(ACTION_SMS_SENT);
-
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, SEND_CODE, smsIntent, 0);
-                smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
+                Log.d(TAG, "Sending text to: " + number);
+                Intent smsIntent = new Intent(this, SMSSendService.class);
+                smsIntent.setAction(SMSSendService.ACTION_SMS_STATUS);
+                Bundle extra = new Bundle();
+                extra.putString("number", number);
+                extra.putString("message", pollString);
+                smsIntent.putExtras(extra);
+                this.startService(smsIntent);
             }
 
             Feast feast = new Feast(title, date, time, new Date(), map, numbers);
@@ -106,7 +115,6 @@ public class NewFeastActivity extends AppCompatActivity {
 
             if(MainActivity.feastsAdapter.getCount() < MainActivity.feastsAdapter.getCount() + 1) {
                 MainActivity.feastsAdapter.add(feast);
-                MainActivity.feasts.add(feast);
                 Log.d(TAG, MainActivity.feastsAdapter.getCount() + " and " + MainActivity.feasts.size());
                 Log.v(TAG, "feast added");
             }
@@ -152,9 +160,16 @@ public class NewFeastActivity extends AppCompatActivity {
                 adapterPeople.add(name);
                 numbers.put(number, name);
                 Log.v(TAG, number + " " + name);
-
+                setListViewHeightBasedOnChildren(listViewPeople);
             }
         }
+
+    }
+
+    @Override
+    public void onUserInteraction() {
+        setListViewHeightBasedOnChildren(listViewCategory);
+        super.onUserInteraction();
     }
 
     public void handleAddCategory(View v) {
@@ -192,6 +207,26 @@ public class NewFeastActivity extends AppCompatActivity {
     public void handlePickDate(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
     public static class TimePickerFragment extends DialogFragment
