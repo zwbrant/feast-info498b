@@ -62,6 +62,8 @@ public class MessageReceiver extends BroadcastReceiver {
 
                 switch (command) {
                     case "vote" :
+                        Log.d(TAG, MainActivity.feasts.size() +"");
+                        Log.d(TAG, MainActivity.feastsAdapter.getCount() + "'");
                         Feast feast = MainActivity.feasts.get(targetFeast - 1);
                         for (int i = 3; i < parts.length; i++) {
                             feast.vote(parts[i]);

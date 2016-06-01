@@ -47,7 +47,8 @@ public class NewFeastActivity extends AppCompatActivity {
     public static String date;
     public static String time;
     private String title;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapterCategory;
+    private ArrayAdapter<String> adapterPeople;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,57 +60,63 @@ public class NewFeastActivity extends AppCompatActivity {
         setTitle("New Feast");
         numbers = new HashMap<>();
         //controller
-        adapter = new ArrayAdapter<>(this,
+        adapterCategory = new ArrayAdapter<>(this,
                 R.layout.category_item, R.id.txtItem, new ArrayList<String>()); //define adapter
 
-        ListView listView = (ListView)findViewById(R.id.category_list);
-        listView.setAdapter(adapter); //set adapter
+        adapterPeople = new ArrayAdapter<>(this,
+                R.layout.category_item, R.id.txtItem, new ArrayList<String>()); //define adapter
+
+        ListView listViewCategory = (ListView)findViewById(R.id.category_list);
+        ListView listViewPeople = (ListView)findViewById(R.id.person_list);
+        listViewCategory.setAdapter(adapterCategory); //set adapter
+        listViewPeople.setAdapter(adapterPeople);
     }
 
     public void handleSendPoll(View v) {
-        Log.v(TAG, "sent poll");
-        HashMap<String, Integer> map = new HashMap<>();
         title = ((EditText) this.findViewById(R.id.edit_title)).getText().toString();
-        String pollString = "Feast Poll (at " + date + " " + time + "): \n " +
-                title + " \n" +
-                "Reply with name to vote: \n" +
-                " \n";
 
-        for(int i = 0; i < adapter.getCount(); i++) {
-            pollString += (i + 1) + ". " + adapter.getItem(i) + " \n";
-            map.put(adapter.getItem(i), 0);
-        }
+        if (adapterPeople.getCount() > 0 && adapterCategory.getCount() > 0 && title.length() > 0) {
+            Log.v(TAG, "Sending poll");
+            HashMap<String, Integer> map = new HashMap<>();
+            String pollString = "Feast Poll (at " + date + " " + time + "): \n " +
+                    title + " \n" +
+                    "Reply with name to vote: \n" +
+                    " \n";
 
-        pollString += "\n" +
-                "OR REPLY \"FEAST: [custom entry]\" to add to the poll";
+            for(int i = 0; i < adapterCategory.getCount(); i++) {
+                pollString += (i + 1) + ". " + adapterCategory.getItem(i) + " \n";
+                map.put(adapterCategory.getItem(i), 0);
+            }
 
+            pollString += "\n" +
+                    "OR REPLY \"FEAST: [custom entry]\" to add to the poll";
 
-        for(String number: numbers.keySet()) {
-            SmsManager smsManager = SmsManager.getDefault();
+            //Send an SMS to each number
+            for(String number: numbers.keySet()) {
+                SmsManager smsManager = SmsManager.getDefault();
 
-            Intent smsIntent = new Intent(ACTION_SMS_SENT);
+                Intent smsIntent = new Intent(ACTION_SMS_SENT);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, SEND_CODE, smsIntent, 0);
-            smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, SEND_CODE, smsIntent, 0);
+                smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
+            }
+
+            Feast feast = new Feast(title, date, time, new Date(), map, numbers);
+            Log.v(TAG, feast.toString());
+
+            if(MainActivity.feastsAdapter.getCount() < MainActivity.feastsAdapter.getCount() + 1) {
+                MainActivity.feastsAdapter.add(feast);
+                MainActivity.feasts.add(feast);
+                Log.d(TAG, MainActivity.feastsAdapter.getCount() + " and " + MainActivity.feasts.size());
+                Log.v(TAG, "feast added");
+            }
+
             Toast.makeText(this, "Poll sent!", Toast.LENGTH_SHORT).show();
+
+            finish();
+        } else {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_LONG).show();
         }
-
-
-        Feast feast = new Feast(title, date, time, new Date(), map, numbers);
-        Log.v(TAG, feast.toString());
-
-        if(MainActivity.feastsAdapter.getCount() < MainActivity.feastsAdapter.getCount() + 1) {
-            MainActivity.feastsAdapter.add(feast);
-            MainActivity.feasts.add(feast);
-            Log.v(TAG, "feast added");
-        }
-
-        Intent intent = new Intent(NewFeastActivity.this, MainActivity.class);
-        startActivity(intent);
-
-
-        //numbers.clear();
-
     }
 
     public void handleAddPerson(View v) {
@@ -142,6 +149,7 @@ public class NewFeastActivity extends AppCompatActivity {
                 int columnNames = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 String number = cursor.getString(column);
                 String name = cursor.getString(columnNames);
+                adapterPeople.add(name);
                 numbers.put(number, name);
                 Log.v(TAG, number + " " + name);
 
@@ -161,7 +169,7 @@ public class NewFeastActivity extends AppCompatActivity {
         alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String category = edittext.getText().toString();
-                adapter.add(category);
+                adapterCategory.add(category);
             }
         });
 
