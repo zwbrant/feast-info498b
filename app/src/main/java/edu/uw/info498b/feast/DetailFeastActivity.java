@@ -3,6 +3,7 @@ package edu.uw.info498b.feast;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import org.w3c.dom.Text;
 
@@ -75,18 +79,32 @@ public class DetailFeastActivity extends AppCompatActivity {
                     if (subNames.length > 1)
                         initial += Character.toUpperCase(subNames[subNames.length - 1].charAt(0));
 
-                    TextView textView = new TextView(this);
-                    textView.setText(initial);
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
-                    textView.setBackgroundColor(this.getResources().getColor(R.color.colorJelly));
+                    ColorGenerator generator = ColorGenerator.MATERIAL;
+                    int color = generator.getColor(initial);
+
+                    ImageView imgView = new ImageView(this);
+
+                    TextDrawable drawable = TextDrawable.builder()
+                            .beginConfig()
+                            .width(135)  // width in px
+                            .height(135) // height in px
+                            .useFont(Typeface.DEFAULT_BOLD)
+                            .endConfig()
+                            .buildRound(initial, color);
+
+                    imgView.setImageDrawable(drawable);
+
+
 
                     LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    textView.setLayoutParams(lps);
-                    lps.setMargins(0,0, 15,10);
-//                textView.setId(i);
+                    lps.setMargins(0,0, 20,0);
+//                lps.gravity = Gravity.LEFT;
+                    imgView.setLayoutParams(lps);
+
+                    //matIcon.setId(i);
 
 
-                    contactContainer.addView(textView);
+                    contactContainer.addView(imgView);
 
 
                 }
