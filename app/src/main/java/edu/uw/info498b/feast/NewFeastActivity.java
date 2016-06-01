@@ -47,7 +47,8 @@ public class NewFeastActivity extends AppCompatActivity {
     public static String date;
     public static String time;
     private String title;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapterCategory;
+    private ArrayAdapter<String> adapterPeople;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,16 @@ public class NewFeastActivity extends AppCompatActivity {
         setTitle("New Feast");
         numbers = new HashMap<>();
         //controller
-        adapter = new ArrayAdapter<>(this,
+        adapterCategory = new ArrayAdapter<>(this,
                 R.layout.category_item, R.id.txtItem, new ArrayList<String>()); //define adapter
 
-        ListView listView = (ListView)findViewById(R.id.category_list);
-        listView.setAdapter(adapter); //set adapter
+        adapterPeople = new ArrayAdapter<>(this,
+                R.layout.category_item, R.id.txtItem, new ArrayList<String>()); //define adapter
+
+        ListView listViewCategory = (ListView)findViewById(R.id.category_list);
+        ListView listViewPeople = (ListView)findViewById(R.id.person_list);
+        listViewCategory.setAdapter(adapterCategory); //set adapter
+        listViewPeople.setAdapter(adapterPeople);
     }
 
     public void handleSendPoll(View v) {
@@ -75,9 +81,9 @@ public class NewFeastActivity extends AppCompatActivity {
                 "Reply with name to vote: \n" +
                 " \n";
 
-        for(int i = 0; i < adapter.getCount(); i++) {
-            pollString += (i + 1) + ". " + adapter.getItem(i) + " \n";
-            map.put(adapter.getItem(i), 0);
+        for(int i = 0; i < adapterCategory.getCount(); i++) {
+            pollString += (i + 1) + ". " + adapterCategory.getItem(i) + " \n";
+            map.put(adapterCategory.getItem(i), 0);
         }
 
         pollString += "\n" +
@@ -142,6 +148,7 @@ public class NewFeastActivity extends AppCompatActivity {
                 int columnNames = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 String number = cursor.getString(column);
                 String name = cursor.getString(columnNames);
+                adapterPeople.add(name);
                 numbers.put(number, name);
                 Log.v(TAG, number + " " + name);
 
@@ -161,7 +168,7 @@ public class NewFeastActivity extends AppCompatActivity {
         alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String category = edittext.getText().toString();
-                adapter.add(category);
+                adapterCategory.add(category);
             }
         });
 

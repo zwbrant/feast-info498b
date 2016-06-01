@@ -78,12 +78,19 @@
         android:background="@android:color/holo_blue_bright"
         android:onClick="handleAddPerson"/>
 
+    <ListView
+        android:id="@+id/person_list"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/add_person_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
     <TextView
         android:id="@+id/category_text"
         android:text="Food Categories"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/add_person_button"
+        android:layout_below="@id/person_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
