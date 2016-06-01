@@ -1,9 +1,12 @@
 package edu.uw.info498b.feast;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -35,6 +38,8 @@ public class DetailFeastActivity extends AppCompatActivity {
     private Bundle bundle;
     private Feast feast;
     private String winningCateg;
+    public static final String ACTION_SMS_SENT = "edu.uw.info498b.feast.ACTION_SMS_SENT";
+    private static final int SEND_CODE = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +55,9 @@ public class DetailFeastActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.item_title)).setText(feast.name);
             ((TextView) findViewById(R.id.item_time)).setText(feast.time);
             ((TextView) findViewById(R.id.item_date)).setText(feast.date);
+
+
+            findViewById(R.id.item_icon).setBackgroundColor(feast.getColor());
 
 
             // people
@@ -71,6 +79,7 @@ public class DetailFeastActivity extends AppCompatActivity {
                     TextView textView = new TextView(this);
                     textView.setText(initial);
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                    textView.setBackgroundColor(this.getResources().getColor(R.color.colorJelly));
 
                     LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     textView.setLayoutParams(lps);
@@ -90,9 +99,9 @@ public class DetailFeastActivity extends AppCompatActivity {
 
 
             // food category
-            feast.categories.put("Korean", 10);
-            feast.categories.put("Chinese", 8);
-            feast.categories.put("Mexican", 15);
+//            feast.categories.put("Korean", 10);
+//            feast.categories.put("Chinese", 8);
+//            feast.categories.put("Mexican", 15);
 
             ArrayList<String> categoryList = new ArrayList<String>();
             categoryList.addAll(feast.categories.keySet());
@@ -135,6 +144,24 @@ public class DetailFeastActivity extends AppCompatActivity {
     public void handleClosePoll(View v) {
         Toast.makeText(this, "Poll closed!", Toast.LENGTH_SHORT).show();
         feast.setCompleted(true);
+        Log.v(TAG, "sent result");
+
+        String pollString = "Feast Poll (at " + feast.date + " " + feast.time + "): \n " +
+                feast.name + " \n" +
+                "Host has closed poll. \n" + " \n" +
+                "Final Result: \n" + winningCateg +
+                " \n";
+
+        for(String number: feast.phonenumbers.keySet()) {
+            SmsManager smsManager = SmsManager.getDefault();
+
+            Intent smsIntent = new Intent(ACTION_SMS_SENT);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, SEND_CODE, smsIntent, 0);
+            smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
+            Toast.makeText(this, "Result sent!", Toast.LENGTH_SHORT).show();
+        }
+
         result();
     }
 
