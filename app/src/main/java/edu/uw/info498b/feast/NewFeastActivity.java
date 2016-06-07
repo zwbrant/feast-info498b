@@ -46,6 +46,7 @@ public class NewFeastActivity extends AppCompatActivity {
     public static final String ACTION_SMS_SENT = "edu.uw.info498b.feast.ACTION_SMS_SENT";
     private static final int SEND_CODE = 0;
     private static final int PICK_CONTACT_REQUEST = 1;
+    private static int MAX_SMS_MESSAGE_LENGTH = 160;
     private HashMap<String, String> numbers;
     public static String date;
     public static String time;
@@ -85,13 +86,14 @@ public class NewFeastActivity extends AppCompatActivity {
             Log.v(TAG, "Sending poll");
 
             HashMap<String, Integer> map = new HashMap<>();
-            String pollString = "Feast Poll (at " + date + " " + time + "): \n " +
-                    title + " \n" +
-                    "Reply with 'FEAST " + MainActivity.feastsAdapter.getCount() + 1 + " Vote' followed by each category you'd like to vote for." +
-                    "\n Eg: 'FEAST 2 Vote mexican, italian, chinese'";
+            int targetFeast = MainActivity.feastsAdapter.getCount() + 1;
+            String pollString = "Feast Poll (at " + date + " " + time + "): \n" +
+                    title + "\n" +
+                    "Reply with 'FEAST " + targetFeast + " Vote' followed by each category you'd like to vote for." + "\n" +
+                    "Eg: 'FEAST " + targetFeast + " Vote mexican, italian, chinese" + "\n";
 
             for(int i = 0; i < adapterCategory.getCount(); i++) {
-                pollString += (i + 1) + ". " + adapterCategory.getItem(i) + " \n";
+                pollString += (i + 1) + ". " + adapterCategory.getItem(i) + "\n";
                 map.put(adapterCategory.getItem(i), 0);
             }
 
@@ -104,7 +106,14 @@ public class NewFeastActivity extends AppCompatActivity {
                 SmsManager smsManager = SmsManager.getDefault();
                 Intent smsIntent = new Intent(ACTION_SMS_SENT);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(this, SEND_CODE, smsIntent, 0);
-                smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
+                int length = pollString.length();
+                if(length > MAX_SMS_MESSAGE_LENGTH) {
+                    ArrayList<String> messagelist = smsManager.divideMessage(pollString);
+                    smsManager.sendMultipartTextMessage(number, null, messagelist, null, null);
+                } else {
+                    smsManager.sendTextMessage(number, null, pollString, pendingIntent, null);
+
+                }
             }
 
             Feast feast = new Feast(title, date, time, new Date(), map, numbers);

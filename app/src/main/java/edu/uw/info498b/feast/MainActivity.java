@@ -76,15 +76,6 @@ public class MainActivity extends AppCompatActivity {
         if (json == null) {
             Log.v(TAG, "***No JSON found");
 
-
-            //Example implementation of the ListView, with mock entries
-            //Not sure where the actual Feast data should be stored.
-//
-//            feasts.add(new Feast("Salmon celebration", "8:45pm","Apr 30th",new Date()));
-//            feasts.add(new Feast("Mongoose fest", "8:45pm","Sep 30th",new Date()));
-//            feasts.add(new Feast("Platypus party", "3:45pm","Oct 30th",new Date()));
-//            feasts.add(new Feast("Dachshund dance", "5:45pm","May 30th",new Date()));
-
         } else {
             Gson gson = new Gson();
             Log.v(TAG, "***Loading JSON");
@@ -93,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
             Type collectionType = new TypeToken<ArrayList<Feast>>(){}.getType();
             ArrayList<Feast> temp = gson.fromJson(json, collectionType);
+            feasts.clear();
 
             for (Feast feast : temp) {
                 feasts.add(feast);
